@@ -114,5 +114,13 @@ make_sniffy_data <- function(cand_no, n = 10, messy = TRUE) {
     names(sniffy_data) <- messed_up_names
   }
 
+  sniffy_codebook <<- tibble::tibble(
+    variable = messed_up_names,
+    description = c("This is a lovely ID",
+                    "this is some other variable, prolly condition",
+                    "this is response yall",
+                    "rewardy-reward")
+  )
+
   return(sniffy_data)
 }
