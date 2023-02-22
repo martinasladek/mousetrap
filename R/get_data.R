@@ -12,5 +12,12 @@
 
 get_data <- function(cand_no){
 
-  make_sniffy_data(cand_no)
+  tryCatch(
+    {
+      make_sniffy_data(cand_no)
+    },
+    error = function(cond){
+      message("You need to specify your candidate number to run the function. The candidate number can found on Sussex Direct or on your student card labelled as CandNo (not to be confused with the registration number!)")
+    }
+  )
 }
