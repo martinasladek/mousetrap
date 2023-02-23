@@ -120,7 +120,7 @@ make_sniffy_data <- function(cand_no, n = 10, messy = TRUE) {
 
   sniffy_codebook <<- tibble::tibble(
     variable_name = messed_up_names,
-    description = c("categortical. ID number of the rat.",
+    description = c("categorical. ID number of the rat.",
                     "categorical. Reinforcement schedule the rat has been assigned to: 0 = 'Fixed Ratio 6'; 1 = 'Variable Ratio 6'; 2 = 'Fixed Interval 8'; 3 = 'Variable Interval 8'.",
                     "numeric. Number of lever presses recorded.",
                     "numeric. Number of rewards administered.")
