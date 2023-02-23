@@ -13,43 +13,45 @@ knitr::opts_chunk$set(
 )
 ```
 
-# mousetrap
+# mousetRap
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of mousetrap is to ...
-
 ## Installation
 
-You can install the development version of mousetrap from [GitHub](https://github.com/) with:
+Install the development version of `mousetRap` from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("martinasladek/mousetrap")
 ```
 
+## Shiny App
+
+To install the `shiny` R package for checking `mousetRap` output, visit the [GitHub page for `shinymousetRap`](https://github.com/martinasladek/shinymousetrap), or run: 
+
+```{r eval = FALSE}
+if(!require(mousetrap)){
+  devtools::install_github("martinasladek/mousetrap")
+}
+
+devtools::install_github("martinasladek/shinymousetrap")
+```
+
+
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Loading `mousetRap`:
 
 ```{r example}
 library(mousetrap)
-## basic example code
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+To generate data, run: 
 
 ```{r cars}
-summary(cars)
+mousetrap::get_data(cand_no = 12345)
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/v1/examples>.
 
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.

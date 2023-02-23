@@ -1,16 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# mousetrap
+# mousetRap
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of mousetrap is to …
-
 ## Installation
 
-You can install the development version of mousetrap from
+Install the development version of `mousetRap` from
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -18,38 +16,45 @@ You can install the development version of mousetrap from
 devtools::install_github("martinasladek/mousetrap")
 ```
 
+## Shiny App
+
+To install the `shiny` R package for checking `mousetRap` output, visit
+the [GitHub page for
+`shinymousetRap`](https://github.com/martinasladek/shinymousetrap), or
+run:
+
+``` r
+if(!require(mousetrap)){
+  devtools::install_github("martinasladek/mousetrap")
+}
+
+devtools::install_github("martinasladek/shinymousetrap")
+```
+
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Loading `mousetRap`:
 
 ``` r
 library(mousetrap)
-## basic example code
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+To generate data, run:
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+mousetrap::get_data(cand_no = 12345)
+#> # A tibble: 47 × 4
+#>    ID     Condition response Reward
+#>    <chr>  <fct>        <dbl>  <dbl>
+#>  1 F46VIU 3               21    160
+#>  2 6N7J4A 0              288     48
+#>  3 Q0D6R3 2               38     34
+#>  4 2H49L6 0              384     64
+#>  5 918Q0J 3               56     35
+#>  6 4CEXQF 0              336     56
+#>  7 UYSOFW 0              294     49
+#>  8 9FNZGD 3              175     44
+#>  9 K3J59A 2               43     40
+#> 10 RBZ7DH 0              240     40
+#> # … with 37 more rows
 ```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/v1/examples>.
-
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.

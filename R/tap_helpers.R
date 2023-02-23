@@ -101,6 +101,9 @@ make_sniffy_data <- function(cand_no, n = 10, messy = TRUE) {
       dplyr::ungroup() |>
       dplyr::arrange(condition)
 
+    sniffy_data <- sniffy_data |>
+      dplyr::slice_sample(n = nrow(sniffy_data))
+
     ## Mess up the names
     id_names <- c("id", "ID", "i.d.", "id_num", "id_no")
     condition_names <- c("condition", "CONDITION", "cond", "Condition", "COND")
