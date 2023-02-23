@@ -51,6 +51,7 @@ fix_ids <- function(data){
 #'
 make_sniffy_data <- function(cand_no, n = 10, messy = TRUE) {
 
+  cand_no <- as.numeric(cand_no)
   set.seed(cand_no)
 
   sniffy <- sniffy |>
