@@ -78,6 +78,8 @@ make_sniffy_data <- function(cand_no, n = 10, messy = TRUE) {
 
   if(messy){
 
+    set.seed(cand_no)
+
     too_many <- sample(101:200, size = sample(2:5, 1))
     too_few <- NULL #rep(0, times = sample(2:5, 1))
 
