@@ -49,28 +49,35 @@ fix_ids <- function(data){
 #'  make_sniffy_data(12345)
 #' }
 #'
-make_sniffy_data <- function(cand_no, n = 10, messy = TRUE) {
+make_sniffy_data <- function(cand_no, n = 417, messy = TRUE) {
 
   cand_no <- as.numeric(cand_no)
   set.seed(cand_no)
 
   sniffy <- sniffy |>
-    dplyr::mutate(condition = factor(condition))
+    dplyr::mutate(
+      condition = factor(condition)
+      ) |>
+    dplyr::rename(`rewards` = "reward")
+
 
   sniffy_data <- sniffy |>
     dplyr::select(-rat_id) |>
     dplyr::filter(condition != 0) |>
     faux::sim_df(n = n, between = "condition") |>
     dplyr::mutate(
-      across(tidyselect::where(is.numeric), ~round(abs(.x))) ## Make whole numbers and drop negatives
+      across(tidyselect::where(is.numeric), ~round(abs(.x))), ## Make whole numbers and drop negatives
+      schedule_type = ifelse(condition %in% c(0, 1), "Ratio", "Interval")
     ) |>
     dplyr::bind_rows(
       tibble::tibble(
         condition = factor(0),
-        reward = sample(40:65, n, replace = TRUE),
-        responses = reward *6
+        rewards = sample(40:65, n, replace = TRUE),
+        responses = rewards*6,
+        schedule_type = ifelse(condition %in% c(0, 1), "Ratio", "Interval")
       )
     ) |>
+    dplyr::select(id, condition, schedule_type, responses, rewards) |>
     dplyr::arrange(condition) |>
     fix_ids()
 
@@ -89,44 +96,47 @@ make_sniffy_data <- function(cand_no, n = 10, messy = TRUE) {
     reward_messy <- sniffy_data |>
       dplyr::slice_sample(n = length(c(too_many, too_few))) |>
       dplyr::mutate(
-        reward = c(too_many, too_few)
+        schedule_type = ifelse(condition %in% c(0, 1), "Ratio", "Interval"),
+        rewards = c(too_many, too_few)
       ) |>
       fix_ids()
 
     missing_messy <- sniffy_data |>
       dplyr::slice_sample(n = length(missing)) |>
       dplyr::mutate(
-        responses = missing
+        responses = missing,
       ) |>
       fix_ids()
 
     sniffy_data <- rbind.data.frame(sniffy_data, reward_messy, missing_messy)|>
       dplyr::ungroup() |>
+      dplyr::select(id, condition, schedule_type, responses, rewards) |>
       dplyr::arrange(condition)
 
     sniffy_data <- sniffy_data |>
       dplyr::slice_sample(n = nrow(sniffy_data))
 
     ## Mess up the names
-    id_names <- c("id", "ID", "i.d.", "id_num", "id_no")
-    condition_names <- c("condition", "CONDITION", "cond", "Condition", "COND")
-    response_names <- c("response", "RESPONSE", "resp", "Response", "RESP")
-    reward_names <- c("reward", "REWARD", "rew", "Reward", "REW")
+    # id_names <- c("id", "ID", "i.d.", "id_num", "id_no")
+    # condition_names <- c("condition", "CONDITION", "cond", "Condition", "COND")
+    # response_names <- c("response", "RESPONSE", "resp", "Response", "RESP")
+    # reward_names <- c("reward", "REWARD", "rew", "Reward", "REW")
 
-    names_grid <- tidyr::expand_grid(id_names, condition_names, response_names, reward_names)
+    #   names_grid <- tidyr::expand_grid(id_names, condition_names, response_names, reward_names)
+    #
+    #   messed_up_names <- unlist(names_grid[sample(1:nrow(names_grid), size = 1), ])
+    #
+    #   names(sniffy_data) <- messed_up_names
 
-    messed_up_names <- unlist(names_grid[sample(1:nrow(names_grid), size = 1), ])
-
-    names(sniffy_data) <- messed_up_names
   }
 
-  sniffy_codebook <<- tibble::tibble(
-    variable_name = messed_up_names,
-    description = c("categorical. ID number of the rat.",
-                    "categorical. Reinforcement schedule the rat has been assigned to: 0 = 'Fixed Ratio 6'; 1 = 'Variable Ratio 6'; 2 = 'Fixed Interval 8'; 3 = 'Variable Interval 8'.",
-                    "numeric. Number of lever presses recorded.",
-                    "numeric. Number of rewards administered.")
-  )
+  # sniffy_codebook <<- tibble::tibble(
+  #   variable_name = messed_up_names,
+  #   description = c("categorical. ID number of the rat.",
+  #                   "categorical. Reinforcement schedule the rat has been assigned to: 0 = 'Fixed Ratio 6'; 1 = 'Variable Ratio 6'; 2 = 'Fixed Interval 8'; 3 = 'Variable Interval 8'.",
+  #                   "numeric. Number of lever presses recorded.",
+  #                   "numeric. Number of rewards administered.")
+  # )
 
   return(sniffy_data)
 }

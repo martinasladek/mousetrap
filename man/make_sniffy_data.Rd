@@ -4,7 +4,7 @@
 \alias{make_sniffy_data}
 \title{Create random Sniffy-style data}
 \usage{
-make_sniffy_data(cand_no, n = 10, messy = TRUE)
+make_sniffy_data(cand_no, n = 1000, messy = TRUE)
 }
 \arguments{
 \item{cand_no}{A candidate number}
