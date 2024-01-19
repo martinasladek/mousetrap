@@ -12,7 +12,10 @@ Install the development version of `mousetRap` from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
+if(!require(faux)){
+  devtools::install_github("debruine/faux")
+}
+
 devtools::install_github("martinasladek/mousetrap")
 ```
 
@@ -23,8 +26,10 @@ the [GitHub page for
 `shinymousetRap`](https://github.com/martinasladek/shinymousetrap), or
 run:
 
-``` r
+
+```r
 if(!require(mousetrap)){
+  devtools::install_github("debruine/faux")
   devtools::install_github("martinasladek/mousetrap")
 }
 
